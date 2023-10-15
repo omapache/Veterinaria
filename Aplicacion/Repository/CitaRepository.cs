@@ -23,8 +23,27 @@ public class CitaRepository : GenericRepo<Cita>, ICita
     public override async Task<Cita> GetByIdAsync(int id)
     {
         return await _context.Citas
-            .Include(p => p.Mascota)
+        .Include(p => p.Mascota)
         .FirstOrDefaultAsync(p =>  p.Id == id);
+    }
+    public override async Task<(int totalRegistros, IEnumerable<Cita> registros)> GetAllAsync(int pageIndex, int pageSize, int search)
+    {
+        var query = _context.Citas as IQueryable<Cita>;
+
+        if (search != 0)
+        {
+            query = query.Where(p => p.IdVeterinarioFk == search);
+        }
+
+        query = query.OrderBy(p => p.Id);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Include(p => p.Mascota)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
     }
 
 } 
