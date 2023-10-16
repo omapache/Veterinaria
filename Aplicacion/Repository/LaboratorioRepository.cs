@@ -42,4 +42,20 @@ namespace Aplicacion.Repository;
 
         return (totalRegistros, registros);
     }
+    public async Task<object> Consulta2A()
+    {
+        
+        var Laboratorios = await (
+            from l in _context.Laboratorios
+            
+            where l.Nombre.Contains("Genfar")
+            select new{
+                Nombre = l.Nombre,
+                Direccion = l.Direccion,
+                Telefono = l.Telefono
+            }).Distinct()
+            .ToListAsync();
+
+        return Laboratorios;
+    }
 } 

@@ -6,6 +6,8 @@ using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
 public class ProveedorController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -17,6 +19,7 @@ public class ProveedorController : BaseApiController
         this.mapper = mapper;
     }
     [HttpGet]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<ProveedorDto>>> Get()
@@ -38,7 +41,8 @@ public class ProveedorController : BaseApiController
         }
         return this.mapper.Map<ProveedorDto>(entidad);
     }
-    [HttpGet("Paginacion")]
+    [HttpGet]
+    [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Pager<ProveedorDto>>> GetPagination([FromQuery] Params paisParams)

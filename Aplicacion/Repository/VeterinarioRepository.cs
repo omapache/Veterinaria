@@ -42,4 +42,20 @@ public class VeterinarioRepository : GenericRepo<Veterinario>, IVeterinario
 
         return (totalRegistros, registros);
     }
+    public async Task<object> Consulta1A()
+    {
+        
+        var Veterinarios = await (
+            from v in _context.Veterinarios
+            
+            where v.Especialidad.Contains("Cirujano vascular")
+            select new{
+                Nombre = v.Nombre,
+                Email = v.Email,
+                Telefono = v.Telefono
+            }).Distinct()
+            .ToListAsync();
+
+        return Veterinarios;
+    }
 } 

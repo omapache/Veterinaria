@@ -6,6 +6,8 @@ using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
 public class VeterinarioController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -18,6 +20,7 @@ public class VeterinarioController : BaseApiController
     }
 
     [HttpGet]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<VeterinarioDto>>> Get()
@@ -39,7 +42,8 @@ public class VeterinarioController : BaseApiController
         }
         return this.mapper.Map<VeterinarioDto>(entidad);
     }
-    [HttpGet("Paginacion")]
+    [HttpGet]
+    [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Pager<VeterinarioDto>>> GetPagination([FromQuery] Params paisParams)
@@ -47,6 +51,15 @@ public class VeterinarioController : BaseApiController
         var entidad = await unitofwork.Veterinarios.GetAllAsync(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
         var listEntidad = mapper.Map<List<VeterinarioDto>>(entidad.registros);
         return new Pager<VeterinarioDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+    }
+    [HttpGet("consulta1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> Consulta1A()
+    {
+        var entidad = await unitofwork.Veterinarios.Consulta1A();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]

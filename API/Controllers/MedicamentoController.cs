@@ -6,6 +6,8 @@ using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
 public class MedicamentoController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -17,6 +19,7 @@ public class MedicamentoController : BaseApiController
         this.mapper = mapper;
     }
     [HttpGet]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<MedicamentoDto>>> Get()
@@ -38,7 +41,8 @@ public class MedicamentoController : BaseApiController
         }
         return this.mapper.Map<MedicamentoDto>(entidad);
     }
-    [HttpGet("Paginacion")]
+    [HttpGet]
+    [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Pager<MedicamentoDto>>> GetPagination([FromQuery] Params paisParams)
@@ -46,6 +50,15 @@ public class MedicamentoController : BaseApiController
         var entidad = await unitofwork.Medicamentos.GetAllAsync(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
         var listEntidad = mapper.Map<List<MedicamentoDto>>(entidad.registros);
         return new Pager<MedicamentoDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+    }
+    [HttpGet("consulta5")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> Consulta5A()
+    {
+        var entidad = await unitofwork.Medicamentos.Consulta5A();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]

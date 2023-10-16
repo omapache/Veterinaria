@@ -6,6 +6,8 @@ using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
 public class MascotaController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -17,6 +19,7 @@ public class MascotaController : BaseApiController
         this.mapper = mapper;
     }
     [HttpGet]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<MascotaDto>>> Get()
@@ -38,7 +41,8 @@ public class MascotaController : BaseApiController
         }
         return this.mapper.Map<MascotaDto>(entidad);
     }
-    [HttpGet("Paginacion")]
+    [HttpGet]
+    [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Pager<MascotaDto>>> GetPagination([FromQuery] Params paisParams)
@@ -46,6 +50,24 @@ public class MascotaController : BaseApiController
         var entidad = await unitofwork.Mascotas.GetAllAsync(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
         var listEntidad = mapper.Map<List<MascotaDto>>(entidad.registros);
         return new Pager<MascotaDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+    }
+    [HttpGet("consulta3")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> Consulta3A()
+    {
+        var entidad = await unitofwork.Mascotas.Consulta3A();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
+    }
+    [HttpGet("consulta6")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> Consulta6A()
+    {
+        var entidad = await unitofwork.Mascotas.Consulta6A();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]

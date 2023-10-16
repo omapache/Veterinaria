@@ -6,6 +6,8 @@ using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
 public class PropietarioController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -17,6 +19,7 @@ public class PropietarioController : BaseApiController
         this.mapper = mapper;
     }
     [HttpGet]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<PropietarioDto>>> Get()
@@ -38,7 +41,8 @@ public class PropietarioController : BaseApiController
         }
         return this.mapper.Map<PropietarioDto>(entidad);
     }
-    [HttpGet("Paginacion")]
+    [HttpGet]
+    [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Pager<PropietarioDto>>> GetPagination([FromQuery] Params paisParams)
@@ -46,6 +50,15 @@ public class PropietarioController : BaseApiController
         var entidad = await unitofwork.Propietarios.GetAllAsync(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
         var listEntidad = mapper.Map<List<PropietarioDto>>(entidad.registros);
         return new Pager<PropietarioDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+    }
+    [HttpGet("consulta4")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> Consulta4A()
+    {
+        var entidad = await unitofwork.Propietarios.Consulta4A();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]

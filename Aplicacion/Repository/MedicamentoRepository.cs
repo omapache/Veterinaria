@@ -45,4 +45,21 @@ public class MedicamentoRepository : GenericRepo<Medicamento>, IMedicamento
 
         return (totalRegistros, registros);
     }
+    public async Task<object> Consulta5A()
+    {
+        
+        var Medicamentos = await (
+            from m in _context.Medicamentos
+            join l in _context.Laboratorios on m.IdLaboratorioFk equals l.Id
+            where m.Precio == 50000
+            select new{
+                Nombre = m.Nombre,
+                CantidadDisponible = m.CantidadDisponible,
+                precio = m.Precio,
+                Laboratorio = l.Nombre,
+            }).Distinct()
+            .ToListAsync();
+
+        return Medicamentos;
+    }
 } 

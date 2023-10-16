@@ -282,8 +282,6 @@ namespace Persistencia.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IdPropietarioFk = table.Column<int>(type: "int", nullable: false),
-                    IdEspecieFk = table.Column<int>(type: "int", nullable: false),
-                    EspecieId = table.Column<int>(type: "int", nullable: true),
                     IdRazaFk = table.Column<int>(type: "int", nullable: false),
                     nombre = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -292,11 +290,6 @@ namespace Persistencia.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_mascota", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_mascota_especie_EspecieId",
-                        column: x => x.EspecieId,
-                        principalTable: "especie",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_mascota_propietario_IdPropietarioFk",
                         column: x => x.IdPropietarioFk,
@@ -447,11 +440,6 @@ namespace Persistencia.Data.Migrations
                 name: "IX_detalleMovimiento_MovimientoMedicamentoId",
                 table: "detalleMovimiento",
                 column: "MovimientoMedicamentoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_mascota_EspecieId",
-                table: "mascota",
-                column: "EspecieId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_mascota_IdPropietarioFk",

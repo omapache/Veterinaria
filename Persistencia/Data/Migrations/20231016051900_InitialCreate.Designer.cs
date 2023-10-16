@@ -11,7 +11,7 @@ using Persistencia;
 namespace Persistencia.Data.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20231014071403_InitialCreate")]
+    [Migration("20231016051900_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -141,15 +141,9 @@ namespace Persistencia.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("EspecieId")
-                        .HasColumnType("int");
-
                     b.Property<DateOnly>("FechaNacimiento")
                         .HasColumnType("date")
                         .HasColumnName("fechaNacimiento");
-
-                    b.Property<int>("IdEspecieFk")
-                        .HasColumnType("int");
 
                     b.Property<int>("IdPropietarioFk")
                         .HasColumnType("int");
@@ -164,8 +158,6 @@ namespace Persistencia.Data.Migrations
                         .HasColumnName("nombre");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EspecieId");
 
                     b.HasIndex("IdPropietarioFk");
 
@@ -530,10 +522,6 @@ namespace Persistencia.Data.Migrations
 
             modelBuilder.Entity("Dominio.Entities.Mascota", b =>
                 {
-                    b.HasOne("Dominio.Entities.Especie", "Especie")
-                        .WithMany()
-                        .HasForeignKey("EspecieId");
-
                     b.HasOne("Dominio.Entities.Propietario", "Propietario")
                         .WithMany("Mascotas")
                         .HasForeignKey("IdPropietarioFk")
@@ -545,8 +533,6 @@ namespace Persistencia.Data.Migrations
                         .HasForeignKey("Dominio.Entities.Mascota", "IdRazaFk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Especie");
 
                     b.Navigation("Propietario");
 

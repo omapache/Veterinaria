@@ -6,6 +6,8 @@ using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
 public class RazaController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -17,6 +19,7 @@ public class RazaController : BaseApiController
         this.mapper = mapper;
     }
     [HttpGet]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<RazaDto>>> Get()
@@ -38,7 +41,8 @@ public class RazaController : BaseApiController
         }
         return this.mapper.Map<RazaDto>(entidad);
     }
-    [HttpGet("Paginacion")]
+    [HttpGet]
+    [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Pager<RazaDto>>> GetPagination([FromQuery] Params paisParams)

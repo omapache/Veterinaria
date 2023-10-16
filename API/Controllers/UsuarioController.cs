@@ -7,6 +7,8 @@ using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
 public class UsuarioController : BaseApiController
 {
     private readonly IUserService _Usuarioservice;
@@ -20,6 +22,7 @@ public class UsuarioController : BaseApiController
         _Usuarioservice = Usuarioservice;
     }
     [HttpGet]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<UsuarioDto>>> Get()
@@ -41,7 +44,8 @@ public class UsuarioController : BaseApiController
         }
         return this.mapper.Map<UsuarioDto>(entidad);
     }
-    [HttpGet("Paginacion")]
+    [HttpGet]
+    [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Pager<UsuarioDto>>> GetPagination([FromQuery] Params paisParams)
