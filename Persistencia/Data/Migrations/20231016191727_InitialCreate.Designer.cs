@@ -11,7 +11,7 @@ using Persistencia;
 namespace Persistencia.Data.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20231016051900_InitialCreate")]
+    [Migration("20231016191727_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -73,9 +73,6 @@ namespace Persistencia.Data.Migrations
                     b.Property<int>("IdMovimientoMedicamentoFk")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MovimientoMedicamentoId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Precio")
                         .HasColumnType("double")
                         .HasColumnName("precio");
@@ -84,7 +81,7 @@ namespace Persistencia.Data.Migrations
 
                     b.HasIndex("IdMedicamentoFk");
 
-                    b.HasIndex("MovimientoMedicamentoId");
+                    b.HasIndex("IdMovimientoMedicamentoFk");
 
                     b.ToTable("detalleMovimiento", (string)null);
                 });
@@ -513,7 +510,9 @@ namespace Persistencia.Data.Migrations
 
                     b.HasOne("Dominio.Entities.MovimientoMedicamento", "MovimientoMedicamento")
                         .WithMany("DetalleMovimientos")
-                        .HasForeignKey("MovimientoMedicamentoId");
+                        .HasForeignKey("IdMovimientoMedicamentoFk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Medicamento");
 

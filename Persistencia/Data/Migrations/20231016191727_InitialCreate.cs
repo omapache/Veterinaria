@@ -339,7 +339,6 @@ namespace Persistencia.Data.Migrations
                     IdMedicamentoFk = table.Column<int>(type: "int", nullable: false),
                     cantidad = table.Column<int>(type: "int", nullable: false),
                     IdMovimientoMedicamentoFk = table.Column<int>(type: "int", nullable: false),
-                    MovimientoMedicamentoId = table.Column<int>(type: "int", nullable: true),
                     precio = table.Column<double>(type: "double", nullable: false)
                 },
                 constraints: table =>
@@ -352,10 +351,11 @@ namespace Persistencia.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_detalleMovimiento_movimientoMedicamento_MovimientoMedicament~",
-                        column: x => x.MovimientoMedicamentoId,
+                        name: "FK_detalleMovimiento_movimientoMedicamento_IdMovimientoMedicame~",
+                        column: x => x.IdMovimientoMedicamentoFk,
                         principalTable: "movimientoMedicamento",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -437,9 +437,9 @@ namespace Persistencia.Data.Migrations
                 column: "IdMedicamentoFk");
 
             migrationBuilder.CreateIndex(
-                name: "IX_detalleMovimiento_MovimientoMedicamentoId",
+                name: "IX_detalleMovimiento_IdMovimientoMedicamentoFk",
                 table: "detalleMovimiento",
-                column: "MovimientoMedicamentoId");
+                column: "IdMovimientoMedicamentoFk");
 
             migrationBuilder.CreateIndex(
                 name: "IX_mascota_IdPropietarioFk",
