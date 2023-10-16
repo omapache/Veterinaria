@@ -3,11 +3,14 @@ using API.Helpers.Errors;
 using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
+[Authorize]
+
 public class ProveedorController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -50,6 +53,15 @@ public class ProveedorController : BaseApiController
         var entidad = await unitofwork.Proveedores.GetAllAsync(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
         var listEntidad = mapper.Map<List<ProveedorDto>>(entidad.registros);
         return new Pager<ProveedorDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+    }
+    [HttpGet("consulta4B")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> Consulta4B()
+    {
+        var entidad = await unitofwork.Proveedores.Consulta4B();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]

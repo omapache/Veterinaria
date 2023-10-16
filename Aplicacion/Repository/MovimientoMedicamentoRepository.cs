@@ -45,4 +45,20 @@ public class MovimientoMedicamentoRepository : GenericRepo<MovimientoMedicamento
 
         return (totalRegistros, registros);
     }
+    public async Task<object> Consulta2B()
+    {
+        
+        var Movimiento = await (
+            from d in _context.DetalleMovimientos
+            join m in _context.MovimientoMedicamentos on d.IdMovimientoMedicamentoFk equals m.Id
+            
+            select new{
+                idMovimientoMedicamento = m.Id,
+                TipoMovimiento = m.TipoMovimiento.Descripcion,
+                total = d.Precio * d.Cantidad,
+            }).Distinct()
+            .ToListAsync();
+
+        return Movimiento;
+    }
 } 

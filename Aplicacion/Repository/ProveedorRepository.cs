@@ -42,4 +42,23 @@ public class ProveedorRepository : GenericRepo<Proveedor>, IProveedor
 
         return (totalRegistros, registros);
     }
+    public async Task<object> Consulta4B()
+    {
+        var consulta = from m in _context.Medicamentos
+        select new
+        {
+            Nombre = m.Nombre,
+            proveedores = (from mp in _context.MedicamentoProveedores
+                        join me in _context.Medicamentos on mp.IdMedicamentoFk equals me.Id
+                        join p in _context.Proveedores on mp.IdProveedorFk equals p.Id
+                        where m.Id == mp.IdMedicamentoFk
+                        select new
+                        {
+                            NombreProveedor = p.Nombre,
+                        }).ToList()
+        };
+
+        var propietariosConMascotas = await consulta.ToListAsync();
+        return propietariosConMascotas;
+    }
 } 

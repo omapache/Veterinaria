@@ -88,4 +88,62 @@ public class MascotaRepository : GenericRepo<Mascota>, IMascota
             Console.WriteLine(primerTrimestreFin);
         return Mascotas;
     }
+    public async Task<object> Consulta1B()
+    {
+        var consulta = 
+        from e in _context.Especies 
+        select new
+        {
+            NombreEspecie = e.Nombre,
+            Mascotas = (from m in _context.Mascotas
+                        join r in _context.Razas on m.IdRazaFk equals r.Id
+                        where m.IdRazaFk == r.Id
+                        where r.IdEspecieFk == e.Id
+                        select new
+                        {
+                            NombreMascota = m.Nombre,
+                            FechaNacimiento = m.FechaNacimiento,
+                            Raza = r.Nombre
+                        }).ToList()
+        };
+
+        var MascotaEspecie = await consulta.ToListAsync();
+        return MascotaEspecie;
+    }
+
+    public async Task<object> Consulta3B()
+    {
+        var consulta = 
+        from e in _context.Citas 
+        join v in _context.Veterinarios on e.IdVeterinarioFk equals v.Id
+        select new
+        {
+            Veterinario = v.Nombre,
+            Mascotas = (from c in _context.Citas 
+                        join m in _context.Mascotas on c.IdMascotaFk equals m.Id
+                        where c.IdVeterinarioFk == v.Id
+                        select new
+                        {
+                            NombreMascota = m.Nombre,
+                            FechaNacimiento = m.FechaNacimiento,
+                        }).ToList()
+        };
+
+        var MascotaEspecie = await consulta.ToListAsync();
+        return MascotaEspecie;
+    }
+    public async Task<object> Consulta6B()
+    {
+        var consulta =
+        from r in _context.Razas
+        select new
+        {
+            NombreRaza = r.Nombre,
+            CantidadMascotas = _context.Mascotas.Distinct().Count(m => m.IdRazaFk == r.Id)
+        };
+
+        var MascotasPorRaza = await consulta.ToListAsync();
+        return MascotasPorRaza;
+    }
+
 } 

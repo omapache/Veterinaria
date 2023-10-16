@@ -3,11 +3,14 @@ using API.Helpers.Errors;
 using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
+[Authorize]
+
 public class VeterinarioController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -52,7 +55,7 @@ public class VeterinarioController : BaseApiController
         var listEntidad = mapper.Map<List<VeterinarioDto>>(entidad.registros);
         return new Pager<VeterinarioDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
-    [HttpGet("consulta1")]
+    [HttpGet("consulta1A")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<object>> Consulta1A()

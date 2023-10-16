@@ -179,6 +179,7 @@ public class UserService : IUserService
         /*         dataUserDto.Email = usuario.Email;
          */
         dataUserDto.UserName = usuario.Nombre;
+        dataUserDto.Email = usuario.Email;
         dataUserDto.Roles = usuario.Rols
                                         .Select(u => u.Nombre)
                                         .ToList();

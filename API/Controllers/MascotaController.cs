@@ -3,11 +3,14 @@ using API.Helpers.Errors;
 using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
+[Authorize]
+
 public class MascotaController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -51,7 +54,7 @@ public class MascotaController : BaseApiController
         var listEntidad = mapper.Map<List<MascotaDto>>(entidad.registros);
         return new Pager<MascotaDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
-    [HttpGet("consulta3")]
+    [HttpGet("consulta3A")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<object>> Consulta3A()
@@ -60,12 +63,39 @@ public class MascotaController : BaseApiController
         var dto = mapper.Map<IEnumerable<object>>(entidad);
         return Ok(dto);
     }
-    [HttpGet("consulta6")]
+    [HttpGet("consulta6A")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<object>> Consulta6A()
     {
         var entidad = await unitofwork.Mascotas.Consulta6A();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
+    }
+    [HttpGet("consulta1B")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> Consulta1B()
+    {
+        var entidad = await unitofwork.Mascotas.Consulta1B();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
+    }
+    [HttpGet("consulta3B")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> Consulta3B()
+    {
+        var entidad = await unitofwork.Mascotas.Consulta3B();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
+    }
+    [HttpGet("consulta6B")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> Consulta6B()
+    {
+        var entidad = await unitofwork.Mascotas.Consulta6B();
         var dto = mapper.Map<IEnumerable<object>>(entidad);
         return Ok(dto);
     }

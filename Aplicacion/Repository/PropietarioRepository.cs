@@ -63,4 +63,27 @@ public class PropietarioRepository : GenericRepo<Propietario>, IPropietario
         var propietariosConMascotas = await consulta.ToListAsync();
         return propietariosConMascotas;
     }
+    public async Task<object> Consulta5B()
+    {
+        var consulta = from p in _context.Propietarios
+        select new
+        {
+            Nombre = p.Nombre,
+            Email = p.Email,
+            Telefono = p.Telefono,
+            Mascotas = (from m in _context.Mascotas
+                        join r in _context.Razas on m.IdRazaFk equals r.Id
+                        where r.Nombre == "Golden Retriver"
+                        where m.IdPropietarioFk == p.Id
+                        select new
+                        {
+                            NombreMascota = m.Nombre,
+                            FechaNacimiento = m.FechaNacimiento,
+                            Raza = r.Nombre
+                        }).ToList()
+        };
+
+        var propietariosConMascotas = await consulta.ToListAsync();
+        return propietariosConMascotas;
+    }
 }

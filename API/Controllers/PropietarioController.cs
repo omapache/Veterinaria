@@ -3,11 +3,14 @@ using API.Helpers.Errors;
 using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
+[Authorize]
+
 public class PropietarioController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -51,12 +54,21 @@ public class PropietarioController : BaseApiController
         var listEntidad = mapper.Map<List<PropietarioDto>>(entidad.registros);
         return new Pager<PropietarioDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
-    [HttpGet("consulta4")]
+    [HttpGet("consulta4A")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<object>> Consulta4A()
     {
         var entidad = await unitofwork.Propietarios.Consulta4A();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
+    }
+    [HttpGet("consulta5B")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> Consulta5B()
+    {
+        var entidad = await unitofwork.Propietarios.Consulta5B();
         var dto = mapper.Map<IEnumerable<object>>(entidad);
         return Ok(dto);
     }
