@@ -11,7 +11,7 @@ using Persistencia;
 namespace Persistencia.Data.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20231016191727_InitialCreate")]
+    [Migration("20231017201714_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -158,8 +158,7 @@ namespace Persistencia.Data.Migrations
 
                     b.HasIndex("IdPropietarioFk");
 
-                    b.HasIndex("IdRazaFk")
-                        .IsUnique();
+                    b.HasIndex("IdRazaFk");
 
                     b.ToTable("mascota", (string)null);
                 });
@@ -528,8 +527,8 @@ namespace Persistencia.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Dominio.Entities.Raza", "Raza")
-                        .WithOne("Mascota")
-                        .HasForeignKey("Dominio.Entities.Mascota", "IdRazaFk")
+                        .WithMany("Mascotas")
+                        .HasForeignKey("IdRazaFk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -681,7 +680,7 @@ namespace Persistencia.Data.Migrations
 
             modelBuilder.Entity("Dominio.Entities.Raza", b =>
                 {
-                    b.Navigation("Mascota");
+                    b.Navigation("Mascotas");
                 });
 
             modelBuilder.Entity("Dominio.Entities.Rol", b =>

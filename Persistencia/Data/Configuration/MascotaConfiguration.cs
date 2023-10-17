@@ -27,7 +27,7 @@ public class MascotaConfiguration : IEntityTypeConfiguration<Mascota>
                 .HasForeignKey(p => p.IdPropietarioFk);
 
                 builder.HasOne(e => e.Raza)
-                .WithOne(p => p.Mascota)
-                .HasForeignKey<Mascota>(p => p.IdRazaFk);
+                .WithMany(p => p.Mascotas)
+                .HasForeignKey(p => p.IdRazaFk);
             }
         }
