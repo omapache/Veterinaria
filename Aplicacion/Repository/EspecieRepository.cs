@@ -40,6 +40,7 @@ namespace Aplicacion.Repository;
             .Take(pageSize)
             .ToListAsync();
 
+
         return (totalRegistros, registros);
     }
 } 

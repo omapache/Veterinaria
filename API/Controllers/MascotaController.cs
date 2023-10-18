@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
-[Authorize]
-
+/* [Authorize]
+ */
 public class MascotaController : BaseApiController
 {
     private readonly IUnitOfWork unitofwork;
@@ -55,6 +55,7 @@ public class MascotaController : BaseApiController
         return new Pager<MascotaDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
     [HttpGet("consulta3A")]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<object>> Consulta3A()
@@ -63,7 +64,18 @@ public class MascotaController : BaseApiController
         var dto = mapper.Map<IEnumerable<object>>(entidad);
         return Ok(dto);
     }
+    [HttpGet("consulta3A")]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<object>>> Consulta3APag([FromQuery] Params paisParams)
+    {
+        var entidad = await unitofwork.Mascotas.Consulta3A(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+        var listEntidad = mapper.Map<List<object>>(entidad.registros);
+        return new Pager<object>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+    }
     [HttpGet("consulta6A")]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<object>> Consulta6A()
@@ -71,6 +83,16 @@ public class MascotaController : BaseApiController
         var entidad = await unitofwork.Mascotas.Consulta6A();
         var dto = mapper.Map<IEnumerable<object>>(entidad);
         return Ok(dto);
+    }
+    [HttpGet("consulta6A")]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<object>>> Consulta6APag([FromQuery] Params paisParams)
+    {
+        var entidad = await unitofwork.Mascotas.Consulta6A(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+        var listEntidad = mapper.Map<List<object>>(entidad.registros);
+        return new Pager<object>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
     [HttpGet("consulta1B")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -91,6 +113,7 @@ public class MascotaController : BaseApiController
         return Ok(dto);
     }
     [HttpGet("consulta6B")]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<object>> Consulta6B()
@@ -98,6 +121,16 @@ public class MascotaController : BaseApiController
         var entidad = await unitofwork.Mascotas.Consulta6B();
         var dto = mapper.Map<IEnumerable<object>>(entidad);
         return Ok(dto);
+    }
+    [HttpGet("consulta6B")]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<object>>> Consulta6BPag([FromQuery] Params paisParams)
+    {
+        var entidad = await unitofwork.Mascotas.Consulta6B(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+        var listEntidad = mapper.Map<List<object>>(entidad.registros);
+        return new Pager<object>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
