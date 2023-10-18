@@ -172,7 +172,39 @@ public class MascotaRepository : GenericRepo<Mascota>, IMascota
         var MascotaEspecie = await consulta.ToListAsync();
         return MascotaEspecie;
     }
+    public virtual async Task<(int totalRegistros,object registros)> Consulta1B(int pageIndez, int pageSize, string search)
+    {
+        var query = 
+        from e in _context.Especies 
+        select new
+        {
+            NombreEspecie = e.Nombre,
+            Mascotas = (from m in _context.Mascotas
+                        join r in _context.Razas on m.IdRazaFk equals r.Id
+                        where m.IdRazaFk == r.Id
+                        where r.IdEspecieFk == e.Id
+                        select new
+                        {
+                            NombreMascota = m.Nombre,
+                            FechaNacimiento = m.FechaNacimiento,
+                            Raza = r.Nombre
+                        }).ToList()
+        };
+        
+        if(!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.NombreEspecie.ToLower().Contains(search));
+        }
 
+        query = query.OrderBy(p => p.NombreEspecie);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query 
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
+    }
     public async Task<object> Consulta3B()
     {
         var consulta = 
@@ -193,6 +225,38 @@ public class MascotaRepository : GenericRepo<Mascota>, IMascota
 
         var MascotaEspecie = await consulta.ToListAsync();
         return MascotaEspecie;
+    }
+    public virtual async Task<(int totalRegistros,object registros)> Consulta3B(int pageIndez, int pageSize, string search)
+    {
+        var query = 
+        from e in _context.Citas 
+        join v in _context.Veterinarios on e.IdVeterinarioFk equals v.Id
+        select new
+        {
+            Veterinario = v.Nombre,
+            Mascotas = (from c in _context.Citas 
+                        join m in _context.Mascotas on c.IdMascotaFk equals m.Id
+                        where c.IdVeterinarioFk == v.Id
+                        select new
+                        {
+                            NombreMascota = m.Nombre,
+                            FechaNacimiento = m.FechaNacimiento,
+                        }).ToList()
+        };
+        
+        if(!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Veterinario.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Veterinario);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query 
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
     }
     public virtual async Task<object> Consulta6B()
     {

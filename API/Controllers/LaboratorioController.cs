@@ -55,6 +55,7 @@ public class LaboratorioController : BaseApiController
         return new Pager<LaboratorioDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
     [HttpGet("consulta2A")]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<object>> Consulta2A()
@@ -62,6 +63,16 @@ public class LaboratorioController : BaseApiController
         var entidad = await unitofwork.Laboratorios.Consulta2A();
         var dto = mapper.Map<IEnumerable<object>>(entidad);
         return Ok(dto);
+    }
+    [HttpGet("consulta2A")]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<object>>> Consulta2APag([FromQuery] Params paisParams)
+    {
+        var entidad = await unitofwork.Laboratorios.Consulta2A(paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
+        var listEntidad = mapper.Map<List<object>>(entidad.registros);
+        return new Pager<object>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]

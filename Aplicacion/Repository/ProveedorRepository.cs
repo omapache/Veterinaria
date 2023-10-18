@@ -61,4 +61,35 @@ public class ProveedorRepository : GenericRepo<Proveedor>, IProveedor
         var propietariosConMascotas = await consulta.ToListAsync();
         return propietariosConMascotas;
     }
+    public virtual async Task<(int totalRegistros,object registros)> Consulta4B(int pageIndez, int pageSize, string search)
+    {
+        var query = 
+        from m in _context.Medicamentos
+        select new
+        {
+            Nombre = m.Nombre,
+            proveedores = (from mp in _context.MedicamentoProveedores
+                        join me in _context.Medicamentos on mp.IdMedicamentoFk equals me.Id
+                        join p in _context.Proveedores on mp.IdProveedorFk equals p.Id
+                        where m.Id == mp.IdMedicamentoFk
+                        select new
+                        {
+                            NombreProveedor = p.Nombre,
+                        }).ToList()
+        };
+        
+        if(!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Nombre.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Nombre);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query 
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
+    }
 } 

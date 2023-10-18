@@ -58,4 +58,30 @@ public class VeterinarioRepository : GenericRepo<Veterinario>, IVeterinario
 
         return Veterinarios;
     }
+    public virtual async Task<(int totalRegistros,object registros)> Consulta1A(int pageIndez, int pageSize, string search)
+    {
+        var query = 
+        (from v in _context.Veterinarios
+            
+            where v.Especialidad.Contains("Cirujano vascular")
+            select new{
+                Nombre = v.Nombre,
+                Email = v.Email,
+                Telefono = v.Telefono
+            }).Distinct();
+        
+        if(!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Nombre.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Nombre);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query 
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
+    }
 } 

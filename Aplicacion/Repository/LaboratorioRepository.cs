@@ -58,4 +58,29 @@ namespace Aplicacion.Repository;
 
         return Laboratorios;
     }
+    public virtual async Task<(int totalRegistros,object registros)> Consulta2A(int pageIndez, int pageSize, string search)
+    {
+        var query = 
+            (from l in _context.Laboratorios
+            where l.Nombre.Contains("Genfar")
+            select new{
+                Nombre = l.Nombre,
+                Direccion = l.Direccion,
+                Telefono = l.Telefono
+            }).Distinct();
+        
+        if(!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.Nombre.ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Nombre);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query 
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
+    }
 } 
