@@ -45,7 +45,7 @@ public class MascotaRepository : GenericRepo<Mascota>, IMascota
 
         return (totalRegistros, registros);
     }
-    public async Task<object> Consulta3A()
+    public virtual async Task<object> Consulta3A()
     {
         
         var Mascotas = await (
@@ -63,7 +63,7 @@ public class MascotaRepository : GenericRepo<Mascota>, IMascota
 
         return Mascotas;
     }
-    public async Task<(int totalRegistros,object registros)> Consulta3A(int pageIndez, int pageSize, string search)
+    public virtual async Task<(int totalRegistros,object registros)> Consulta3A(int pageIndez, int pageSize, string search)
     {
         var query = ( from m in _context.Mascotas
             join r in _context.Razas on m.IdRazaFk equals r.Id
@@ -90,7 +90,7 @@ public class MascotaRepository : GenericRepo<Mascota>, IMascota
 
         return (totalRegistros, registros);
     }
-    public async Task<object> Consulta6A()
+    public virtual async Task<object> Consulta6A()
     {
         int year = 2023; 
         DateTime primerTrimestreInicio = new DateTime(year, 1, 1); 
@@ -115,7 +115,7 @@ public class MascotaRepository : GenericRepo<Mascota>, IMascota
             Console.WriteLine(primerTrimestreFin);
         return Mascotas;
     }
-    public async Task<(int totalRegistros,object registros)> Consulta6A(int pageIndez, int pageSize, string search)
+    public virtual async Task<(int totalRegistros,object registros)> Consulta6A(int pageIndez, int pageSize, string search)
     {
         int year = 2023; 
         DateTime primerTrimestreInicio = new DateTime(year, 1, 1); 
@@ -194,7 +194,7 @@ public class MascotaRepository : GenericRepo<Mascota>, IMascota
         var MascotaEspecie = await consulta.ToListAsync();
         return MascotaEspecie;
     }
-    public  async Task<object> Consulta6B()
+    public virtual async Task<object> Consulta6B()
     {
         var consulta =
         from r in _context.Razas
@@ -207,7 +207,7 @@ public class MascotaRepository : GenericRepo<Mascota>, IMascota
         var MascotasPorRaza = await consulta.ToListAsync();
         return MascotasPorRaza;
     }
-    public async Task<(int totalRegistros,object registros)> Consulta6B(int pageIndez, int pageSize, string search)
+    public virtual async Task<(int totalRegistros,object registros)> Consulta6B(int pageIndez, int pageSize, string search)
     {
         var query = 
                 from r in _context.Razas
