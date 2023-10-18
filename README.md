@@ -25,8 +25,8 @@ Una vez que el proyecto esté en marcha, puedes acceder a los diferentes endpoin
 
 json
 `{
-    "Usuario": "<nombre_de_usuario>",
-    "Contraseña": "<contraseña>",
+    "Nombre": "<nombre_de_usuario>",
+    "password": "<password>",
     "Email": "<Email>"
 }`
 
@@ -42,7 +42,7 @@ Este endpoint permite a los usuarios registrarse en el sistema.
 
 `{
     "Nombre": "<nombre_de_usuario>",
-    "Contraseña": "<contraseña>"
+    "password": "<password>"
 }`
 
 Una vez registrado el usuario tendrá que ingresar para recibir un token, este será ingresado al siguiente Endpoint que es el de Refresh Token.
@@ -57,7 +57,7 @@ Una vez registrado el usuario tendrá que ingresar para recibir un token, este s
 
 `{
     "Nombre": "<nombre_de_usuario>",
-    "Contraseña": "<contraseña>"
+    "password": "<password>"
 }`
 
 Se dejan los mismos datos en el Body y luego se ingresa al "Auth", "Bearer", allí se ingresa el token obtenido en el anterior Endpoint.
