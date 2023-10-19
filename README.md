@@ -16,7 +16,7 @@ Este proyecto proporciona una API que permite gestionar todo el apartado de la a
 Una vez que el proyecto esté en marcha, puedes acceder a los diferentes endpoints disponibles:
 
 primero que todo, en los csv esta el administrador con el usuario:admin y la contraseña : 123
-del cual nesecitaremos el token para el registtro de usuarios ya que solo el administrador podra hacer todo con respecto al crud de los usuarios:
+del cual nesecitaremos el token para el registro de usuarios ya que solo el administrador podra hacer todo con respecto al crud de los usuarios:
 ## 1. Generación del token:
 
 **Endpoint**: `http://localhost:5165/api/veterinaria/token`
