@@ -4,12 +4,12 @@ using API.Services;
 using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
-
 public class UsuarioController : BaseApiController
 {
     private readonly IUserService _Usuarioservice;
@@ -23,6 +23,7 @@ public class UsuarioController : BaseApiController
         _Usuarioservice = Usuarioservice;
     }
     [HttpGet]
+    [Authorize(Roles = "Administrador")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -32,6 +33,7 @@ public class UsuarioController : BaseApiController
         return mapper.Map<List<UsuarioDto>>(entidad);
     }
     [HttpGet("{id}")]
+    [Authorize(Roles = "Administrador")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -46,6 +48,7 @@ public class UsuarioController : BaseApiController
         return this.mapper.Map<UsuarioDto>(entidad);
     }
     [HttpGet]
+    [Authorize(Roles = "Administrador")]
     [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -56,6 +59,7 @@ public class UsuarioController : BaseApiController
         return new Pager<UsuarioDto>(listEntidad, entidad.totalRegistros, paisParams.PageIndex, paisParams.PageSize, paisParams.Search);
     }
     [HttpPost("register")]
+    [Authorize(Roles = "Administrador")]
     public async Task<ActionResult> RegisterAsync(RegisterDto model)
     {
         var result = await _Usuarioservice.RegisterAsync(model);
@@ -71,6 +75,7 @@ public class UsuarioController : BaseApiController
     }
     
     [HttpPost("addrole")]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> AddRoleAsync(AddRoleDto model)
     {
         var result = await _Usuarioservice.AddRoleAsync(model);
@@ -78,6 +83,7 @@ public class UsuarioController : BaseApiController
     }
 
     [HttpPost("refresh-token")]
+    [Authorize]
     public async Task<IActionResult> RefreshToken()
     {
         var refreshToken = Request.Cookies["refreshToken"];
@@ -89,6 +95,7 @@ public class UsuarioController : BaseApiController
 
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Administrador")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -106,6 +113,7 @@ public class UsuarioController : BaseApiController
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Administrador")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
