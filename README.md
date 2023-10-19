@@ -19,16 +19,16 @@ primero que todo, en los csv esta el administrador con el usuario:admin y la con
 del cual nesecitaremos el token para el registro de usuarios ya que solo el administrador podra hacer todo con respecto al crud de los usuarios:
 ## 1. Generación del token:
 
-    **Endpoint**: `http://localhost:5165/api/veterinaria/token`
-    
-    **Método**: `POST`
-    
-    **Payload**:
-    
-    `{
-        "Nombre": "<nombre_de_usuario>",
-        "password": "<password>"
-    }`
+       **Endpoint**: `http://localhost:5165/api/veterinaria/token`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+       `{
+           "Nombre": "<nombre_de_usuario>",
+           "password": "<password>"
+       }`
 una vez que tenemos el token del administrador, ya podremos hacer el registro de usuario ingresandolo en el auth:
 ## 2. Registro de Usuarios
 
