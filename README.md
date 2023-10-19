@@ -17,6 +17,221 @@ Una vez que el proyecto esté en marcha, puedes acceder a los diferentes endpoin
 
 primero que todo, en los csv esta el administrador con el usuario:admin y la contraseña : 123
 del cual nesecitaremos el token para el registro de usuarios ya que solo el administrador podra hacer todo con respecto al crud de los usuarios:
+
+## POST de las entidades
+
+**Citas**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/cita`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+       {
+            "IdMascotaFk":1,
+            "Fecha":"2023-10-24",
+            "Hora":"2023-10-24",
+            "Motivo":"Vacunacion",
+            "IdVeterinarioFk":1
+      }  
+      
+**Detalle Movimiento**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/DetalleMovimiento`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+       {
+        "id": 4,
+        "idMedicamentoFk": 1,
+        "medicamento": null,
+        "cantidad": 100,
+        "idMovimientoMedicamentoFk": 1,
+        "movimientoMedicamento": null,
+        "precio": 144
+      }
+      
+**Especie**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/especie`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+      {
+        "Nombre":"Ave"
+      }  
+      
+**Laboratorio**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/laboratorio`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+       {
+        "Nombre":"Ave",
+        "Direccion":"Esmeralda",
+        "Telefono":"321654"
+      }  
+
+**Mascota**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/mascota`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+       {
+        "IdPropietarioFk":1,
+        "IdEspecieFk":1,
+        "IdRazaFk":2,
+        "Nombre":"pepito",
+        "FechaNacimiento":"2023-01-12"
+      }
+      
+
+      
+**Medicamento**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/medicamento`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+      {
+        "Nombre":"pepito",
+        "CantidadDisponible":1,
+        "Precio":2,
+        "IdLaboratorioFk":2
+      }
+      
+
+**MovimientoMedicamento**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/movimientoMedicamento`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+     {
+        "Cantidad":1,
+        "Fecha":"2023-07-12",
+        "IdTipoMovimientoFk":2
+      }
+
+
+**Propietario**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/propietario`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+     {
+        "Nombre":"Silvia",
+        "Email":"correo@gmail.com",
+        "Telefono":"123456"
+      }
+
+
+**Proveedor**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/proveedor`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+     {
+        "Nombre":"Silvia",
+        "Direccion":"Cabecera",
+        "Telefono":"123456"
+      }
+
+
+**Raza**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/raza`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+     {
+        "IdEspecieFk":1,
+        "Nombre":"Husky"
+      }  
+
+
+**Rol**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/rol`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+     {
+        "Nombre":"Cliente"
+      }     
+
+
+**TratamientoMedico**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/tratamientoMedico`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+    {
+        "IdCitaFk":1,
+        "IdMedicamentoFk": 3,
+        "Dosis": 12,
+        "FechaAdministracion": "2023-04-05",
+        "Observacion": "Limitación"
+      }    
+
+
+**TipoMovimiento**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/tipoMovimiento`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+    {
+        "Descripcion": "Entrada"
+      }    
+
+
+**Veterinario**  
+
+       **Endpoint**: `http://localhost:5165/api/veterinaria/veterinario`
+       
+       **Método**: `POST`
+       
+       **Payload**:
+       
+    {
+        "Nombre":"Owen",
+        "Email":"correo@gmail.com",
+        "Telefono":"123456",
+        "Especialidad": "Cirujano"
+      }          
+
+
 ## 1. Generación del token:
 
        **Endpoint**: `http://localhost:5165/api/veterinaria/token`
