@@ -15,7 +15,22 @@ Este proyecto proporciona una API que permite gestionar todo el apartado de la a
 
 Una vez que el proyecto esté en marcha, puedes acceder a los diferentes endpoints disponibles:
 
-## 1. Registro de Usuarios
+primero que todo, en los csv esta el administrador con el usuario:admin y la contraseña : 123
+del cual cual nesecitaremos el token para el registtro de usuarios:
+## 1. Generación del token:
+
+**Endpoint**: `http://localhost:5165/api/veterinaria/token`
+
+**Método**: `POST`
+
+**Payload**:
+
+`{
+    "Nombre": "<nombre_de_usuario>",
+    "password": "<password>"
+}`
+una vez que tenemos el token del administrador, ya podremos hacer el registro de usuario ingresandolo en el auth:
+## 2. Registro de Usuarios
 
 **Endpoint**: `http://localhost:5165/api/veterinaria/register`
 
@@ -30,22 +45,7 @@ json
     "Email": "<Email>"
 }`
 
-Este endpoint permite a los usuarios registrarse en el sistema.
-
-## 2. Generación del token:
-
-**Endpoint**: `http://localhost:5165/api/veterinaria/token`
-
-**Método**: `POST`
-
-**Payload**:
-
-`{
-    "Nombre": "<nombre_de_usuario>",
-    "password": "<password>"
-}`
-
-Una vez registrado el usuario tendrá que ingresar para recibir un token, este será ingresado al siguiente Endpoint que es el de Refresh Token.
+Una vez registrado el usuario tendrá que ingresar para recibir un token, este será ingresado al siguiente Endpoint que es el de Refresh Token para poder ingresar a los demas controladores.
 
 ## 3. Refresh Token:
 
@@ -63,6 +63,7 @@ Una vez registrado el usuario tendrá que ingresar para recibir un token, este s
 Se dejan los mismos datos en el Body y luego se ingresa al "Auth", "Bearer", allí se ingresa el token obtenido en el anterior Endpoint.
 
 **Otros Endpoints**
+recordar que para todos los endpoints tenemos que tener el token de rol de administrador
 
 Obtener Todos los Usuarios: GET `http://localhost:5165/api/veterinaria/usuario`
 
@@ -182,3 +183,4 @@ A todas las librerías y herramientas utilizadas en este proyecto.
 A ti, por considerar el uso de este sistema.
 
 por Owen 🦝
+![image](https://github.com/omapache/Veterinaria/assets/133465475/8ff4353b-89ed-4efa-9ae6-0b56f165343e)
