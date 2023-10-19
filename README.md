@@ -32,47 +32,47 @@ del cual nesecitaremos el token para el registro de usuarios ya que solo el admi
 una vez que tenemos el token del administrador, ya podremos hacer el registro de usuario ingresandolo en el auth:
 ## 2. Registro de Usuarios
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/register`
-
-**Método**: `POST`
-
-**Payload**:
-
-json
-`{
-    "Nombre": "<nombre_de_usuario>",
-    "password": "<password>",
-    "Email": "<Email>"
-}`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/register`
+      
+      **Método**: `POST`
+      
+      **Payload**:
+      
+      json
+      `{
+          "Nombre": "<nombre_de_usuario>",
+          "password": "<password>",
+          "Email": "<Email>"
+      }`
 
 Una vez registrado el usuario tendrá que ingresar para recibir un token, este será ingresado al siguiente Endpoint que es el de Refresh Token para poder ingresar a los demas controladores.
 
 ## 3. Refresh Token:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/refresh-token`
-
-**Método**: `POST`
-
-**Payload**:
-
-`{
-    "Nombre": "<nombre_de_usuario>",
-    "password": "<password>"
-}`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/refresh-token`
+      
+      **Método**: `POST`
+      
+      **Payload**:
+      
+      `{
+          "Nombre": "<nombre_de_usuario>",
+          "password": "<password>"
+      }`
 
 Se dejan los mismos datos en el Body y luego se ingresa al "Auth", "Bearer", allí se ingresa el token obtenido en el anterior Endpoint.
 
-**Otros Endpoints**
-recordar que para todos los endpoints tenemos que tener el token de rol de administrador
-
-Obtener Todos los Usuarios: GET `http://localhost:5165/api/veterinaria/usuario`
-
-Obtener Usuario por ID: GET `http://localhost:5165/api/veterinaria/usuario/{id}`
-
-Actualizar Usuario: PUT `http://localhost:5165/api/veterinaria/usuario/{id}`
-
-Eliminar Usuario: DELETE `http://localhost:5165/api/veterinaria/usuario/{id}`
-
+      **Otros Endpoints**
+      recordar que para todos los endpoints tenemos que tener el token de rol de administrador
+      
+      Obtener Todos los Usuarios: GET `http://localhost:5165/api/veterinaria/usuario`
+      
+      Obtener Usuario por ID: GET `http://localhost:5165/api/veterinaria/usuario/{id}`
+      
+      Actualizar Usuario: PUT `http://localhost:5165/api/veterinaria/usuario/{id}`
+      
+      Eliminar Usuario: DELETE `http://localhost:5165/api/veterinaria/usuario/{id}`
+      
 
 ## Desarrollo de los Endpoints requeridos⌨️
 
@@ -91,83 +91,83 @@ Para realizar la paginación se va al apartado de "Query" y se ingresa lo siguie
 
 ## 1. Visualizar los veterinarios cuya especialidad sea Cirujano vascular:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/veterinario/consulta1A`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/veterinario/consulta1A`
+      
+      **Método**: `GET`
 
 
 ## 2. Listar los medicamentos que pertenezcan a el laboratorio Genfar:
-
-**Endpoint**: `http://localhost:5165/api/veterinaria/laboratorio/consulta2A`
-
-**Método**: `GET`
+      
+      **Endpoint**: `http://localhost:5165/api/veterinaria/laboratorio/consulta2A`
+      
+      **Método**: `GET`
 
 
 ## 3. Mostrar las mascotas que se encuentren registradas cuya especie sea felina:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/mascota/consulta3A`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/mascota/consulta3A`
+      
+      **Método**: `GET`
 
 
 ## 4. Listar los propietarios y sus mascotas:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/propietario/consulta4A`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/propietario/consulta4A`
+      
+      **Método**: `GET`
 
 
 ## 5. Listar los medicamentos que tenga un precio de venta mayor a 50000:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/medicamento/consulta5A`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/medicamento/consulta5A`
+      
+      **Método**: `GET`
 
 
 ## 6. Listar las mascotas que fueron atendidas por motivo de vacunacion en el primer trimestre del 2023:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/mascota/consulta6A`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/mascota/consulta6A`
+      
+      **Método**: `GET`
 
 
 ## 7. Listar todas las mascotas agrupadas por especie:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/mascota/consulta1B`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/mascota/consulta1B`
+      
+      **Método**: `GET`
 
 
 ## 8. Listar todos los movimientos de medicamentos y el valor total de cada movimiento:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/movimientoMedicamento/consulta2B`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/movimientoMedicamento/consulta2B`
+      
+      **Método**: `GET`
 
 
 ## 9. Listar las mascotas que fueron atendidas por un determinado veterinario:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/mascota/consulta3B`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/mascota/consulta3B`
+      
+      **Método**: `GET`
 
 ## 10. Listar los proveedores que me venden un determinado medicamento:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/proveedor/consulta4B`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/proveedor/consulta4B`
+      
+      **Método**: `GET`
 
 ## 11. Listar las mascotas y sus propietarios cuya raza sea Golden Retriver:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/propietario/consulta5B`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/propietario/consulta5B`
+      
+      **Método**: `GET`
 
 ## 12. Listar la cantidad de mascotas que pertenecen a una raza:
 
-**Endpoint**: `http://localhost:5165/api/veterinaria/mascota/consulta6B`
-
-**Método**: `GET`
+      **Endpoint**: `http://localhost:5165/api/veterinaria/mascota/consulta6B`
+      
+      **Método**: `GET`
 
 ## Desarrollo ⌨️
 Este proyecto utiliza varias tecnologías y patrones, incluidos:
