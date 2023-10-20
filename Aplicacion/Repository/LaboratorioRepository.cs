@@ -46,13 +46,13 @@ namespace Aplicacion.Repository;
     {
         
         var Laboratorios = await (
-            from l in _context.Laboratorios
-            
+            from m in _context.Medicamentos
+            join l in  _context.Laboratorios on m.IdLaboratorioFk equals l.Id
             where l.Nombre.Contains("Genfar")
             select new{
-                Nombre = l.Nombre,
-                Direccion = l.Direccion,
-                Telefono = l.Telefono
+                Nombre = m.Nombre,
+                CantidadDisponible = m.CantidadDisponible,
+                precio = m.Precio,
             }).Distinct()
             .ToListAsync();
 
